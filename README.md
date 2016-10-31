@@ -95,11 +95,11 @@ const Hapi = require('hapi');
 ```
 Vamos tentar entender o que acabou de acontecer:
 * Você declarou o [modo restrito](http://www.w3schools.com/js/js_strict.asp) ao arquivo, utilizando a expressão literal `use strict`. Isto é apenas um auxílio para manter a semântica do código em comparação à um JavaScript não restrito. Com este modo você não pode, por exemplo, utilizar uma variável que não foi declarada.
-* Você criou uma constante no JavaScript, utilizando a palavra-chave `const`. Esta é uma funcionalidade do [EcmaScript 6](http://es6-features.org/), algo diferente do que estamos acostumados a escrever para os _browsers_. Entretanto, não é necessário reaprender JavaScript para utilizar os conceitos do ES6, assim como você pode utilizar apenas o JavaScript que você já conhece no Node (ES5).
+* Você criou uma constante no JavaScript, utilizando a palavra-chave `const`. Esta é uma funcionalidade do [EcmaScript 6](http://es6-features.org/), algo diferente do que estamos acostumados a escrever para os _browsers_. Entretanto, não é necessário reaprender JavaScript para utilizar os conceitos do ES6, assim como você pode utilizar apenas o JavaScript que você já conhece (ES5), no Node.
 * À esta constante chamada `Hapi`, você atribuiu todo o conteúdo que foi exportado do módulo `hapi`, com a função `require` que está disponível automaticamente ao utilizar o Node. Isto faz com que o Node vá atrás do código fonte do Hapi, que está em nossa pasta `node_modules`.
-* Basicamente, agora todas as funcionalidades exportadas deste nosso framework estarão disponíveis para a utilização em nosso código.
+* Basicamente, agora todas as funcionalidades exportadas do framework estarão disponíveis para a utilização em nosso código.
 
-Vamos agora à criação do nosso **servidor**. Abaixo de tudo que você já digitou, escreva o seguinte código:
+Vamos agora à criação do **servidor**. Abaixo de tudo que você já digitou, escreva o seguinte código:
 ```javascript
 const server = new Hapi.Server();
 ```
@@ -130,6 +130,8 @@ node server.js
 ```
 Se algum erro de sintaxe for encontrado na tentativa de execução, o Node irá lançar uma exceção, e você poderá facilmente identificá-lo. Se tudo der certo, nada acontece. É isso mesmo (ou mais ou menos isso). Seu terminal ficará "travado", com apenas um cursor piscando. Isto significa que você está executando um processo contínuo naquela aba do terminal. Neste momento o seu servidor HTTP em Node está em execução e esperando requisições serem feitas.
 
+Você pode cancelar a execução do servidor a qualquer momento teclando `Ctrl + C`.
+
 Vamos fazer uma requisição então! Abra o seu navegador, e acesse http://localhost:3000 (ou qualquer outro endereço que você configurou no método `server.connection()`). O resultado esperado é o seguinte:
 
 ![Requisição para o servidor Hapi](http://i.imgur.com/lTk3chx.png)
@@ -139,3 +141,49 @@ O resultado é exatamente este que você está vendo. Um erro **HTTP 404**. Acre
 #### Capítulo finalizado :tada:
 Neste capítulo você aprendeu a instalar módulos com o `npm`, utilizar estes módulos dentro de arquivos JavaScript e como criar um servidor com HapiJS. No próximo capítulo faremos algo ~~realmente~~ relevante. :smile: <br />
 **Palavras-chave:** `node`, `javascript`, `hapijs`, `servidor`, `es6`, `módulos`
+
+<br />
+
+### Cap. 4 - Construindo rotas
+Agora que você já é capaz de criar um servidor e fazê-lo aguardar por requisições, basta enviar alguma resposta para diferentes **URL's** que forem requisitadas dentro de seu domínio. Chamaremos estas URL's existentes dentro da nossa aplicação de **rotas**.
+
+Precisamos fazer com que o servidor detecte e envie algum conteúdo para rotas pré-definidas por nós. Tente adivinhar o que aconteceu para obtermos um erro 404 do HTTP ao abrir `localhost:3000` no navegador... Você tentou fazer uma requisição para a rota `/` através do método `GET`, a qual o servidor não conhece, e por consequência não está habilitado a enviar uma resposta decente. Resultado: erro 404 na sua cara! É amigo, a vida tem dessas...
+
+Sabendo disso, vamos então criar rotas para a nossa aplicação!
+
+No seu arquivo `server.js`, adicione as seguintes linhas de código, **entre** o método `server.connect()` e o método `server.start()`:
+
+```javascript
+var routes = [
+    {
+        method: 'GET',
+        path: '/hello',
+        handler: (request, reply) => {
+            reply('Olá mundo do HapiJS!');
+        }
+    }
+];
+```
+O que você acabou de fazer foi:
+- [x] Criar uma variável que armazena um _array_ de objetos.
+- [x] Adicionar um objeto à este array.
+
+O importante disso tudo é que, o objeto que você adicionou à este array corresponde a uma **definição** de rota para o Hapi. Assim, podemos dizer que nossa variável `routes` armazena um vetor de rotas.
+
+Mas o que significam estes atributos no objeto da rota:
+
+Atributo | Definição
+---------|----------
+`method` | O método HTTP deve ser utilizado para acessar tal rota.
+`path` | O caminho (URL) que deve ser acessado para chegar à rota.
+`handler` | Uma função* que lida com a requisição e a resposta.
+
+<span>*</span>Nem sempre é uma função.
+
+Acreditamos que os atributos `path` e `method` são auto-explicáveis. Vale a pena abordar o comportamento do método `handler`. Neste nosso exemplo, `handler` recebe uma função que possui 2 argumentos: `request` e `reply`. Estes 2 fazer exatamente o que o seu cérebro está te dizendo, lidam com a requisição e a resposta daquela rota, respectivamente.
+
+Em nosso primeiro exemplo, ao realizarmos uma requisição via `GET` para `localhost:3000/hello`, nosso argumento `reply` entrará em ação, em forma de **função**, e irá retonar a _string_ "Olá mundo do HapiJS!". Não acredita? Faça o teste: pare o servidor, com `Ctrl + C`, e o inicie novamente, com `node server.js`.
+
+Acesse http://localhost:3000/hello, e se o resultado for o seguinte, tudo ocorreu bem:
+
+![Requisição para a rota /hello](http://i.imgur.com/UD3DnZp.png)
