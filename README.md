@@ -66,7 +66,7 @@ Agora que você já sabe que o Node é capaz de executar o conteúdo de arquivos
 
 O Node traz consigo alguns **módulos principais**, chamados de [core modules](https://nodejs.org/api/modules.html#modules_core_modules). Entre estes vários, há um módulo especial que faz com que o Node seja utilizado em larga escala como servidor de aplicações Web: o módulo `http`.
 
-O módulo `http` permite ao Node lidar com as espeficicações do protocolo da Web. o **HTTP**, e podendo executar funcionalidades com o mesmo intuito de servidores consagrados como **Apache** e **NGINX**. Justamente por poder lidar com isto usando o Node, você não precisar de nenhum software externo para funcionar como servidor em sua aplicação.
+O módulo `http` permite ao Node lidar com as especificações do protocolo da Web. o **HTTP**, e podendo executar funcionalidades com o mesmo intuito de servidores consagrados como **Apache** e **NGINX**. Justamente por poder lidar com isto usando o Node, você não precisar de nenhum software externo para funcionar como servidor em sua aplicação.
 
 Todavia, escrever todo o código necessário para criar um servidor utilizando _apenas_ o módulo `http` pode se tornar extenso e repetitivo.
 
