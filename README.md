@@ -1,6 +1,8 @@
 # hapi-react-tutorial
 Construindo uma aplicação com Hapi e ReactJS - Tutorial para aula de Programação IV @ SISNET 2016/2
 
+<br />
+
 ### Introdução
 O objetivo deste tutorial é criar uma simples aplicação utilizando o framework **HapiJS** e a bilioteca **ReactJS**, bem como introduzir os alunos ao ambiente do **Node.<span></span>js**. A aplicação consiste em um servidor rodando no ambiente Node, escrito com auxílio do Hapi, e renderizando suas visualizações com o React.
 
@@ -53,5 +55,5 @@ Perceba que em seu terminal foi exibida a _string_ que você escreveu no arquivo
 
 #### Capítulo finalizado!
 
-Você já aprendeu como executar arquivos JavaScript com o Node, agora basta fazer coisas úteis com isto! :simple_smile: <br />
+Você já aprendeu como executar arquivos JavaScript com o Node, agora basta fazer coisas úteis com isto! :smile: <br />
 **Palavras-chave:** `node`, `javascript`, `hello world`
