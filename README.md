@@ -132,7 +132,7 @@ Se algum erro de sintaxe for encontrado na tentativa de execução, o Node irá 
 
 Você pode cancelar a execução do servidor a qualquer momento teclando `Ctrl + C`.
 
-Vamos fazer uma requisição então! Abra o seu navegador, e acesse http://localhost:3000 (ou qualquer outro endereço que você configurou no método `server.connection()`). O resultado esperado é o seguinte:
+Vamos fazer uma requisição então! Abra o seu navegador, e acesse [http://localhost:3000](http://localhost:3000) (ou qualquer outro endereço que você configurou no método `server.connection()`). O resultado esperado é o seguinte:
 
 ![Requisição para o servidor Hapi](http://i.imgur.com/lTk3chx.png)
 
@@ -184,6 +184,6 @@ Acreditamos que os atributos `path` e `method` são auto-explicáveis. Vale a pe
 
 Em nosso primeiro exemplo, ao realizarmos uma requisição via `GET` para `localhost:3000/hello`, nosso argumento `reply` entrará em ação, em forma de **função**, e irá retonar a _string_ "Olá mundo do HapiJS!". Não acredita? Faça o teste: pare o servidor, com `Ctrl + C`, e o inicie novamente, com `node server.js`.
 
-Acesse http://localhost:3000/hello, e se o resultado for o seguinte, tudo ocorreu bem:
+Acesse [http://localhost:3000/hello](http://localhost:3000/hello), e se o resultado for o seguinte, tudo ocorreu bem:
 
-![Requisição para a rota /hello](http://i.imgur.com/UD3DnZp.png)
+![Requisição para a rota /hello](http://i.imgur.com/lTk3chx.png)
