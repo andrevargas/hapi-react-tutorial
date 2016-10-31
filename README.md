@@ -29,7 +29,7 @@ Então, inicie um novo projeto em Node com o seguinte comando:
 npm init
 ```
 
-A princípio, apenas pressione `Enter` para todos os questionamentos e o projeto está iniciado.
+A princípio, apenas pressione `Enter` para todos os questionamentos e o projeto estará iniciado.
 
 Se observar bem, você perceberá que foi gerado um arquivo chamado `package.json`. Este arquivo é consequência do comando ```npm init```, e é ele que guarda as configurações do nosso projeto. Abra-o e analise-o, é apenas um arquivo _JSON_ contendo chaves e valores que têm seu significado dentro do projeto. Voltaremos nele mais tarde.
 
@@ -66,7 +66,7 @@ Agora que você já sabe que o Node é capaz de executar o conteúdo de arquivos
 
 O Node traz consigo alguns **módulos principais**, chamados de [core modules](https://nodejs.org/api/modules.html#modules_core_modules). Entre estes vários, há um módulo especial que faz com que o Node seja utilizado em larga escala como servidor de aplicações Web: o módulo `http`.
 
-O módulo `http` permite ao Node lidar com as especificações do protocolo da Web. o **HTTP**, e podendo executar funcionalidades com o mesmo intuito de servidores consagrados como **Apache** e **NGINX**. Justamente por poder lidar com isto usando o Node, você não precisar de nenhum software externo para funcionar como servidor em sua aplicação.
+O módulo `http` permite ao Node lidar com as especificações do protocolo da Web, o **HTTP**, e podendo executar funcionalidades com o mesmo intuito de servidores consagrados como **Apache** e **NGINX**. Justamente por poder lidar com isto usando o Node, você não precisar de nenhum software externo para funcionar como servidor em sua aplicação.
 
 Todavia, escrever todo o código necessário para criar um servidor utilizando _apenas_ o módulo `http` pode se tornar extenso e repetitivo.
 
@@ -85,3 +85,57 @@ npm install --save hapi
 Se você for uma pessoa observadora (e sabemos que você é), perceberá agora há uma pasta com o nome de `node_modules` na **raiz** de seu projeto. É nesta pasta que ficam guardados os códigos-fonte de todos os módulos de terceiros que você instalou (sim, o Hapi está lá).
 
 Isto é se você for uma pessoa observadora. Mas se você é um paranóico que vive verificando os arquivos a cada 2 segundos (isto a gente não sabe se você é), talvez tenha percebido que o nosso arquivo `package.json` foi alterado. Lembra dele? Pois então, se você abrí-lo, perceberá que o Hapi foi adicionado às dependências do projeto, conforme especificado neste arquivo. Isto também acontecerá para os outros módulos que instalarmos com a _flag_ `--save`.
+
+Hapi instalado, chegou a hora de utilizá-lo de verdade. Crie um arquivo chamado `server.js` na raíz do seu projeto. Dentro deste arquivo, digite o seguinte conteúdo:
+
+```javascript
+'use strict';
+
+const Hapi = require('hapi');
+```
+Vamos tentar entender o que acabou de acontecer:
+* Você declarou o [modo restrito](http://www.w3schools.com/js/js_strict.asp) ao arquivo, utilizando a expressão literal `use strict`. Isto é apenas um auxílio para manter a semântica do código em comparação à um JavaScript não restrito. Com este modo você não pode, por exemplo, utilizar uma variável que não foi declarada.
+* Você criou uma constante no JavaScript, utilizando a palavra-chave `const`. Esta é uma funcionalidade do [EcmaScript 6](http://es6-features.org/), algo diferente do que estamos acostumados a escrever para os _browsers_. Entretanto, não é necessário reaprender JavaScript para utilizar os conceitos do ES6, assim como você pode utilizar apenas o JavaScript que você já conhece no Node (ES5).
+* À esta constante chamada `Hapi`, você atribuiu todo o conteúdo que foi exportado do módulo `hapi`, com a função `require` que está disponível automaticamente ao utilizar o Node. Isto faz com que o Node vá atrás do código fonte do Hapi, que está em nossa pasta `node_modules`.
+* Basicamente, agora todas as funcionalidades exportadas deste nosso framework estarão disponíveis para a utilização em nosso código.
+
+Vamos agora à criação do nosso **servidor**. Abaixo de tudo que você já digitou, escreva o seguinte código:
+```javascript
+const server = new Hapi.Server();
+```
+Isto lhe dará uma **instância** de `Hapi.Server`, que estamos armazenando na constante `server`. Viu como é fácil criar um servidor assim? Agora basta configurá-lo e executá-lo.
+
+Para configurar o servidor, abaixo da última linha, digite o código:
+```javascript
+server.connection({
+	host: 'localhost',
+    port: 3000
+});
+```
+Estas são as configurações iniciais que o nosso servidor precisar para rodar. Em seu método `connection`, passamos um **objeto de configuração**, escrito na notação literal JavaScript. Este objeto contém dois atributos, `host` e `port`. O valor de `host` deve ser o **endereço IP** sob qual nosso servidor será acessado (`localhost`, por padrão). `port` define a **porta** em que a aplicação irá executar.
+
+Feito isto, é simples iniciar o servidor. O código é:
+
+```javascript
+server.start((error) => {
+	if (error) throw error;
+    console.log('Servidor rodando em ' + server.info.uri);
+});
+```
+O que você acabou de fazer é invocar o método `start` do servidor, passando uma **função de callback**. Esta função recebe o argumento `error` que representa um possível erro que pode ser disparado ao invocar este método. Se o erro existir, você irá lançá-lo (`throw`) para que possa entender a causa. Para sabermos que o servidor está sendo executado com sucesso, exibimos uma frase com `console.log()` caso não haja erro. `server.info.uri` nos dirá qual é o endereço em que o servidor está executando.
+
+Está tudo pronto para colocarmos o nosso servidor para rodar. Salve o arquivo e digite o seguinte comando no terminal:
+```bash
+node server.js
+```
+Se algum erro de sintaxe for encontrado na tentativa de execução, o Node irá lançar uma exceção, e você poderá facilmente identificá-lo. Se tudo der certo, nada acontece. É isso mesmo (ou mais ou menos isso). Seu terminal ficará "travado", com apenas um cursor piscando. Isto significa que você está executando um processo contínuo naquela aba do terminal. Neste momento o seu servidor HTTP em Node está em execução e esperando requisições serem feitas.
+
+Vamos fazer uma requisição então! Abra o seu navegador, e acesse http://localhost:3000 (ou qualquer outro endereço que você configurou no método `server.connection()`). O resultado esperado é o seguinte:
+
+![Requisição para o servidor Hapi](http://i.imgur.com/lTk3chx.png)
+
+O resultado é exatamente este que você está vendo. Um erro **HTTP 404**. Acredite ou não, isto significa que _deu tudo certo_. Este erro acontence pois não temos nenhuma **rota** definida. Mas isto já é assunto para outro capítulo. Aliás, parabéns por finalizar este!
+
+#### Capítulo finalizado :tada:
+Neste capítulo você aprendeu a instalar módulos com o `npm`, utilizar estes módulos dentro de arquivos JavaScript e como criar um servidor com HapiJS. No próximo capítulo faremos algo ~~realmente~~ relevante. :smile: <br />
+**Palavras-chave:** `node`, `javascript`, `hapijs`, `servidor`, `es6`, `módulos`
