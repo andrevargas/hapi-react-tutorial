@@ -30,5 +30,8 @@
   "bugs": {
     "url": "https://github.com/andrevargas/hapi-react-tutorial/issues"
   },
-  "homepage": "https://github.com/andrevargas/hapi-react-tutorial#readme"
+  "homepage": "https://github.com/andrevargas/hapi-react-tutorial#readme",
+  "dependencies": {
+    "hapi": "^15.2.0"
+  }
 }
