@@ -186,4 +186,4 @@ Em nosso primeiro exemplo, ao realizarmos uma requisição via `GET` para `local
 
 Acesse [http://localhost:3000/hello](http://localhost:3000/hello), e se o resultado for o seguinte, tudo ocorreu bem:
 
-![Requisição para a rota /hello](http://i.imgur.com/lTk3chx.png)
+![Requisição para a rota /hello](http://i.imgur.com/qIocd1w.png)
