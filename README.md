@@ -233,6 +233,7 @@ O module.exports serve para nós exportamos um módulo, para podermos usar em ou
 Neste capítulo você aprendeu a instalar módulo do React com o `npm`, utilizar este módulo para criar o seu primeiro componente e exportar ele. No próximo capítulo vamos configurar o servidor para conseguir utilizar os arquivos do React <br />
 **Palavras-chave:** `node`, `javascript`, `react`, `módulos`
 
+
 ### Cap. 6 - Usando React com HapiJS
 Agora que já você já sabe como criar um componente do React, vamos aprender a utilizar ele junto a um servidor do Hapi e para isto usaremos alguns plugins como o babel, hapi-react-views, hapi-dom e vision
 
