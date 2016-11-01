@@ -187,3 +187,110 @@ Em nosso primeiro exemplo, ao realizarmos uma requisição via `GET` para `local
 Acesse [http://localhost:3000/hello](http://localhost:3000/hello), e se o resultado for o seguinte, tudo ocorreu bem:
 
 ![Requisição para a rota /hello](http://i.imgur.com/qIocd1w.png)
+
+<br />
+
+### Cap. 5 - Introdução ao React
+Agora que você já sabe fazer rotas, vamos aprender um pouco sobe o React. O React é uma Biblioteca Javascript para criação de interfaces para usuários, ou seja ela se preocupa apenas com a parte da view e não com o backend.
+
+Para começarmos, vamos instalar a dependência necessária do React
+
+```bash
+npm install react --save
+```
+
+Dito isto, vamos criar o nosso primeiro componente React que será o nosso menu e ficara dentro da pasta views.
+
+```javacript
+// views/menu.jsx
+'use strict';
+
+const React = require('react');
+
+const Component = React.createClass({
+    displayName: 'Menu',
+    render: function () {
+
+        return (
+            <div>
+                Hello World!;
+                <div style={{ width: '100%', height: '100px', border: '1px solid red' }}>
+                    MEU MENUZÃO
+                </div>
+            </div>
+        );
+    }
+});
+
+module.exports = Component;
+```
+
+O nosso arquivo terá a extensão JSX que é um transpiler que simplesmente compila código. Explicando um pouco sobre o código, nós estamos criando um componente do React, chamamos os métodos displayName que é uma string usada para debugar mensagens, o render que serve para retornar um único elemento React.
+
+O module.exports serve para nós exportamos um módulo, para podermos usar em outros lugar, como veremos no próximo capítulo.
+
+#### Capítulo finalizado :tada:
+Neste capítulo você aprendeu a instalar módulo do React com o `npm`, utilizar este módulo para criar o seu primeiro componente e exportar ele. No próximo capítulo vamos configurar o servidor para conseguir utilizar os arquivos do React <br />
+**Palavras-chave:** `node`, `javascript`, `react`, `módulos`
+
+### Cap. 6 - Usando React com HapiJS
+Agora que já você já sabe como criar um componente do React, vamos aprender a utilizar ele junto a um servidor do Hapi e para isto usaremos alguns plugins como o babel, hapi-react-views, hapi-dom e vision
+
+```bash
+npm install babel babel-core babel-preset-es2015 babel-preset-react hapi-react-views react-dom vision --save
+```
+
+O babel, servirá para traduzir ecmascript e elementos do React para javascript. O Vision serve para facilitar a decisão de qual motor de template que cada arquivo vai usar. O hapi-react-view é um motor template, que serve para renderizar um elemento do React, transformando em HTML.
+
+Já sabendo o que cada uma das coisas fazem, vamos fazer com que o nosso servidor utilize isto tudo para mostrar em uma rota o nosso componente React
+
+```javacript
+// server.js
+//...
+const HapiReactViews = require('hapi-react-views');
+const Vision = require('vision');
+
+//...
+
+require('babel-core/register')({
+    presets: ['react', 'es2015']
+});
+
+server.register(Vision, (err) => {
+
+    if (err) {
+        console.log('Failed to load vision.');
+    }
+
+    server.views({
+        engines: {
+            jsx: HapiReactViews
+        },
+        compileOptions: {}, // optional
+        relativeTo: __dirname,
+        path: 'views'
+    });
+});
+
+const routes = [
+    //...,
+    {
+        method: "GET",
+        path: "/default",
+        handler: (request, reply) => {
+
+            reply.view('menu');
+        }
+    }
+]
+
+//...
+```
+
+Acesse [http://localhost:3000/default](http://localhost:3000/default), e se o resultado for o seguinte, tudo ocorreu bem:
+
+IMG
+
+#### Capítulo finalizado :tada:
+Neste capítulo você aprendeu a instalar módulos para renderizar HTML usando um componente React com o `npm`, utilizar este módulo para configurar o servidor e exibir o que estava no componente na rota /default. Caso queira aprender um pouco mais sobre como utilizar os componentes do React em conjunto, continue para o capítulo 7 <br />
+**Palavras-chave:** `node`, `javascript`, `react`, `hapijs`, `servidor`, `es6`, `módulos`
