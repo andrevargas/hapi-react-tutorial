@@ -11,12 +11,19 @@ server.connection({
     port: 3000
 });
 
-var routes = [
+const routes = [
     {
         method: 'GET',
         path: '/hello',
         handler: (request, reply) => {
             reply('Olá mundo do HapiJS!');
+        }
+    },
+    {
+        method: 'GET',
+        path: '/hello/{name}',
+        handler: (request, reply) => {
+            reply('Olá ' + request.params.name + ', seja bem vindo!');
         }
     }
 ];
