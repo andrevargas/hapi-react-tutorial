@@ -233,7 +233,7 @@ npm install react --save
 
 Dito isto, vamos criar o nosso primeiro componente React que será o nosso menu e ficara dentro da pasta views.
 
-```javacript
+```javascript
 // views/menu.jsx
 'use strict';
 
@@ -277,7 +277,7 @@ O babel, servirá para traduzir ecmascript e elementos do React para javascript.
 
 Já sabendo o que cada uma das coisas fazem, vamos fazer com que o nosso servidor utilize isto tudo para mostrar em uma rota o nosso componente React
 
-```javacript
+```javascript
 // server.js
 //...
 const HapiReactViews = require('hapi-react-views');
@@ -326,4 +326,54 @@ IMG
 
 #### Capítulo finalizado :tada:
 Neste capítulo você aprendeu a instalar módulos para renderizar HTML usando um componente React com o `npm`, utilizar este módulo para configurar o servidor e exibir o que estava no componente na rota /default. Caso queira aprender um pouco mais sobre como utilizar os componentes do React em conjunto, continue para o capítulo 7 <br />
+**Palavras-chave:** `node`, `javascript`, `react`, `hapijs`, `servidor`, `es6`, `módulos`
+
+### Cap. 7 - React composição de componentes
+Agora que renderizamos o nosso React no navegador como HTML, vamos aprender composição de componentes (i.e. colocar um componente dentro de outro), para fazer isso, considere que no exemplo 5, 6 criamos um componente Menu, agora vamos criar um componente MenuItem e colocar dentro do menu, o elemento que vamos criar usaremos como tag <MenuItem /> dentro do componente Menu.
+
+```javascript
+// views/menu.jsx
+'use strict';
+
+const React = require('react');
+
+const Component = React.createClass({
+    displayName: 'Menu',
+    render: function () {
+
+        return (
+            <div>
+                Hello World!;
+                <div style={{ width: '100%', height: '100px', border: '1px solid red' }}>
+                    <MenuItem />
+                    <MenuItem />
+                    <MenuItem />
+                    <MenuItem />
+                    <MenuItem />
+                </div>
+            </div>
+        );
+    }
+});
+
+module.exports = Component;
+
+const MenuItem = function(props) {
+    return (
+        <div style={{ float: 'left', width: '19.88%', height: '99px', border: '1px solid blue' }}>
+            item
+        </div>
+    );
+};
+```
+
+O componente que criamos é um componente simples, ou seja, ele não manipula estado, isto significa que não precisamos de um render ou displayName.
+
+Já sabendo o que cada uma das coisas fazem, vamos fazer com que o nosso servidor utilize isto tudo para mostrar em uma rota o nosso componente React.
+Acesse [http://localhost:3000/default](http://localhost:3000/default), e se o resultado for o seguinte, tudo ocorreu bem:
+
+IMG
+
+#### Capítulo finalizado :tada:
+Neste capítulo você aprendeu a fazer composição de componentes React. Caso queira aprender um pouco mais sobre como manipular propriedades e estados de um componente, continue para o capítulo 8 <br />
 **Palavras-chave:** `node`, `javascript`, `react`, `hapijs`, `servidor`, `es6`, `módulos`
