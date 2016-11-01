@@ -154,7 +154,7 @@ Sabendo disso, vamos então criar rotas para a nossa aplicação!
 No seu arquivo `server.js`, adicione as seguintes linhas de código, **entre** o método `server.connect()` e o método `server.start()`:
 
 ```javascript
-var routes = [
+const routes = [
     {
         method: 'GET',
         path: '/hello',
@@ -165,10 +165,10 @@ var routes = [
 ];
 ```
 O que você acabou de fazer foi:
-- [x] Criar uma variável que armazena um _array_ de objetos.
+- [x] Criar uma constante que armazena um _array_ de objetos.
 - [x] Adicionar um objeto à este array.
 
-O importante disso tudo é que, o objeto que você adicionou à este array corresponde a uma **definição** de rota para o Hapi. Assim, podemos dizer que nossa variável `routes` armazena um vetor de rotas.
+O importante disso tudo é que, o objeto que você adicionou à este array corresponde a uma **definição** de rota para o Hapi. Assim, podemos dizer que nossa constante `routes` armazena um vetor de rotas.
 
 Mas o que significam estes atributos no objeto da rota:
 
@@ -187,6 +187,38 @@ Em nosso primeiro exemplo, ao realizarmos uma requisição via `GET` para `local
 Acesse [http://localhost:3000/hello](http://localhost:3000/hello), e se o resultado for o seguinte, tudo ocorreu bem:
 
 ![Requisição para a rota /hello](http://i.imgur.com/qIocd1w.png)
+
+Vamos tentar tornar esta rota mais interativa. Para isso, utilizaremos os **parâmetros da rota**. Adicione mais um objeto ao nosso array de rotas, `routes`, com as seguintes propriedades:
+
+```javascript
+{
+    method: 'GET',
+    path: '/hello/{name}',
+    handler: (request, reply) => {
+        reply('Olá ' + request.params.name + ', seja bem vindo!');
+    }
+}
+```
+
+Há uma peculiaridade em `path`, a notação `{name}`. Esta notação significa que `name` é um parâmetro variável, ou seja, _qualquer coisa_ escrita após `hello/` nos levará até esta rota. Todavia, não é exatamente _qualquer coisa_... Alguns exemplos de URL's que nos levariam à esta rota são:
+
+* `localhost:3000/hello/Xuxa`
+* `localhost:3000/hello/Satan`
+
+E alguns exemplos que não cairíam nesta rota...:
+* `localhost:3000/hello`
+* `localhost:3000/hello/`
+* `localhost:3000/hello/Xuxa/Satan`
+
+Sabendo disto, perceba que no `handler` desta rota, conseguimos acessar este parâmetro variável foi passado. Fazemos isto acessando o atributo `params` do argumento `request`. Faz sentido, não? A partir daí, `request.params` terá atributos com os nomes exatos dos parâmetros que foram passados em `path`, nesse caso, `{name}`. E é por isso que _magicamente_ possuímos um parâmetro `name` acessível.
+
+Faça o teste, acesse [http://localhost:3000/hello/](http://localhost:3000/hello/Programador) + o seu nome, por exemplo, e verifique o resultado:
+
+![Requisição para rota com parâmetros](http://i.imgur.com/jG94xKU.png)
+
+#### Capítulo finalizado :tada:
+Parabéns amiguinho! Agora você já sabe construir rotas para a sua aplicação, inclusive lidando com parâmetros! Construir uma **API RESTful** daqui pra frente não requiriria muito mais conhecimento, este é o caminho. <br />
+**Palavras-chave:** `node`, `javascript`, `hapijs`, `rotas`, `parâmetros`, `requsição`, `resposta`
 
 <br />
 
